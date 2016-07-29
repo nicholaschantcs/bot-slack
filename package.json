@@ -1,0 +1,13 @@
+{
+  "name": "Slackbot",
+  "version": "1.0.0",
+  "description": "A first bot",
+  "main": "app.js",
+  "scripts": {
+    "start" : "node app.js"
+  },
+  "dependencies": {
+    "@slack/client": "^3.4.0",
+    "recastai": "^1.0.2"
+  }
+}
