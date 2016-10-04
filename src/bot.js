@@ -1,6 +1,5 @@
 // MODULES IMPORT
 const recast = require('recastai')
-const builder = require('botbuilder')
 const config = require('../config.js')
 const http = require('http')
 const slack = require('@slack/client')
