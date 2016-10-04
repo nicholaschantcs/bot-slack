@@ -17,10 +17,17 @@ rtm.start()
 rtm.on(slackEvent.MESSAGE, (message) => {
   const user = rtm.dataStore.getUserById(message.user)
   const dm = rtm.dataStore.getDMByName(user.name).id
-  recastClient.converse(message.text, config.recast.language, message.user)
+  console.log(message)
+  recastClient.textConverse(message.text, { language: config.recast.language, converseToken: message.user })
   .then((res) => {
-    const action = res.action()
-    const replies = res.replies()
+    const action = res.action
+    const replies = res.replies
+
+    if (!action) {
+      console.log(`No action`)
+      rtm.sendMessage('I didn\'t understand... Sorry :(', dm)
+      return
+    }
 
 		console.log(`The action of this message is: ${action.slug}`)
 
@@ -34,7 +41,8 @@ rtm.on(slackEvent.MESSAGE, (message) => {
 			rtm.sendMessage(replies[1], dm)
     }
   })
-  .catch(() => {
+  .catch((err) => {
+    console.log(err)
     rtm.sendMessage("I'm getting tired, let's talk later", dm)
   })
 })

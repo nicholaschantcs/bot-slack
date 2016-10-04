@@ -1,6 +1,6 @@
 # Start coding your bot with Slack
 
-This Starter Kit will help you start coding a bot connected to Slack.
+This Starter Kit will help you start coding a bot connected to Slack with Recast.AI.
 
 ## Requirements
 
@@ -82,8 +82,14 @@ rtm.on(slackEvent.MESSAGE, (message) => {
 
   recastClient.converse(message.text, config.recast.language, message.user)
   .then((res) => {
-    const action = res.action()
-    const replies = res.replies()
+		const action = res.action
+    const replies = res.replies
+
+    if (!action) {
+      console.log(`No action`)
+      rtm.sendMessage('I didn\'t understand... Sorry :(', dm)
+      return
+    }
 
 		console.log(`The action of this message is: ${action.slug}`)
 
