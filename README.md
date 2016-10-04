@@ -68,7 +68,6 @@ npm run start
 Here is the heart of your bot, this function is called everytime your bot receive a message.
 'res' is full of precious informations:
 
-* use res.intent() to get the intent that matched the message
 * use res.get('nameOfEntity') to extract an entity like a mail, a datetime etc...
 * use res.action() to get the current action according to your botbuilder schema
 * in action, you can find a done boolean to know if this action can be done according to the requirements (ex: signin needs login)
@@ -80,15 +79,23 @@ Here is the heart of your bot, this function is called everytime your bot receiv
 rtm.on(slackEvent.MESSAGE, (message) => {
   const user = rtm.dataStore.getUserById(message.user)
   const dm = rtm.dataStore.getDMByName(user.name).id
+
   recastClient.converse(message.text, config.recast.language, message.user)
   .then((res) => {
     const action = res.action()
-    const reply = res.reply()
+    const replies = res.replies()
 
-    if (action.done) {
-      console.log('Action is done!')
+		console.log(`The action of this message is: ${action.slug}`)
+
+		if (replies[0]) {
+			console.log('current action has a reply')
+			rtm.sendMessage(replies[0], dm)
+		}
+
+    if (action.done && replies[1]) {
+      console.log('Action is done && next action has a reply')
+			rtm.sendMessage(replies[1], dm)
     }
-    rtm.sendMessage(reply, dm)
   })
   .catch(() => {
     rtm.sendMessage("I'm getting tired, let's talk later", dm)

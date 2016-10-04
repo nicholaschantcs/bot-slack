@@ -20,12 +20,19 @@ rtm.on(slackEvent.MESSAGE, (message) => {
   recastClient.converse(message.text, config.recast.language, message.user)
   .then((res) => {
     const action = res.action()
-    const reply = res.reply()
+    const replies = res.replies()
 
-    if (action.done) {
-      console.log('Action is done!')
+		console.log(`The action of this message is: ${action.slug}`)
+
+		if (replies[0]) {
+			console.log('current action has a reply')
+			rtm.sendMessage(replies[0], dm)
+		}
+
+    if (action.done && replies[1]) {
+      console.log('Action is done && next action has a reply')
+			rtm.sendMessage(replies[1], dm)
     }
-    rtm.sendMessage(reply, dm)
   })
   .catch(() => {
     rtm.sendMessage("I'm getting tired, let's talk later", dm)
