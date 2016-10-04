@@ -8,14 +8,6 @@ This Starter Kit will help you start coding a bot connected to Slack.
 * Create an account on Slack
 * Set up your Recast.AI account
 
-## Set up a Bot
-
-* Log in to your Recast.AI account
-* Create your Bot
-* Create intents and fill them with some expressions
-* Build your tree on BotBuilder in the 'Build' tab
-
-
 ## Get your Recast Bot Token
 
 * Log in to your Recast.AI account
