@@ -1,10 +1,10 @@
 const config = {
   recast: {
-    token: 'a8979267261b0fc21470f6b90e737720',
+    token: 'RECAST TOKEN',
     language: 'en',
   },
   slack: {
-    token: 'xoxb-87157536642-I9ORmclQF6CFk3gRrQv2QnmN',
+    token: 'SLACK BOT TOKEN',
   },
   port: 8080,
 }
