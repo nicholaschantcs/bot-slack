@@ -1,40 +1,59 @@
-# Slackbot
+# Start coding your bot with Slack
 
-This repo is a simple architecture to start a slackbot project using Recast.AI.
+This Starter Kit will help you start coding a bot connected to Slack.
 
 ## Requirements
 
-* Create an account on [Recast.AI](https://recast.ai/signup)
-* Create an account on [Slack](https://slack.com/)
+* Create an account on Recast.AI
+* Create an account on Slack
+* Set up your Recast.AI account
 
-## Get your Slack Bot Token
+## Set up a Bot
 
-* Log in to Slack and Create a team.
-* Go to : https://yourteam.slack.com/services/new/bot (change "yourteam" with the actual name of your team)
-* Follow the bot creation process, you will then be able to see your token
+* Log in to your Recast.AI account
+* Create your Bot
+* Create intents and fill them with some expressions
+* Build your tree on BotBuilder in the 'Build' tab
+
 
 ## Get your Recast Bot Token
 
-* Log in to your recast account
-* Then on your profile, choose your Bot
-* In the settings tab, is your precious request Token
+* Log in to your Recast.AI account
+* Create your Bot
+* Create intents and fill them with some expressions
+* Build your tree on BotBuilder in the 'Build' tab
+* In the tab menu, click on the the little screw
+* Here is the `request access token` you will need to configure your bot!
 
-## Launch your bot
+## Get your Slack bot Token
+
+* Go to https://YOUR_ORGANISATION.slack.com/services/new/bot (replace it with the name of your team)
+* Create a new bot and follow the procedure
+* That's it, you can now get the code located in the API Token field!
+
+## Launch the Bot
+
+#### Complete the config.js
 
 * Clone this Repository
 
 ```
-git clone git@github.com:RecastAI/bot-slack.git
+git clone A CHANGER
 ```
 
 * Fill the config.js with your Tokens
 
 ```
-var tokens =
+const config =
 {
-  slack: YOUR_SLACK_TOKEN,
-  botName: YOU_BOT_NAME,
-  recast: YOUR_RECAST_TOKEN
+	recast: {
+		token: 'RECAST TOKEN',
+		language: 'en',
+	},
+	slack: {
+		token: 'SLACK TOKEN',
+	}
+	port: 8080,
 }
 ```
 
@@ -49,5 +68,5 @@ npm install
 * run your bot
 
 ```
-npm start
+npm run start
 ```
