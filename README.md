@@ -30,12 +30,12 @@ This Starter Kit will help you start coding a bot connected to Slack.
 * Clone this Repository
 
 ```
-git clone A CHANGER
+git clone https://github.com/RecastAI/bot-slack.git
 ```
 
 * Fill the config.js with your Tokens
 
-```
+```javascript
 const config =
 {
 	recast: {
