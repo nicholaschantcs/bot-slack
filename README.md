@@ -80,7 +80,7 @@ rtm.on(slackEvent.MESSAGE, (message) => {
   const user = rtm.dataStore.getUserById(message.user)
   const dm = rtm.dataStore.getDMByName(user.name).id
 
-  recastClient.converse(message.text, { language: config.recast.language, converseToken: session.message.address.conversation.id })
+  recastClient.converse(message.text, { language: config.recast.language, converseToken: message.user })
   .then((res) => {
 		const action = res.action
     const replies = res.replies
