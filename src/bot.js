@@ -4,7 +4,7 @@ const config = require('../config.js')
 const http = require('http')
 const slack = require('@slack/client')
 
-// RECAST.AI INIT
+// RECAST.AI INIT: Language is optionnal
 const recastClient = new recast.Client(config.recast.token, config.recast.language)
 
 // SLACK CLIENT INIT
@@ -13,32 +13,30 @@ const slackEvent = slack.RTM_EVENTS
 const rtm = new SlackClient(config.slack.token, { logLevel: 'false' })
 rtm.start()
 
-// EVENT : MESSAGE RECEIVED ON SLACK
+// EVENT: Message received on Slack
 rtm.on(slackEvent.MESSAGE, (message) => {
   const user = rtm.dataStore.getUserById(message.user)
   const dm = rtm.dataStore.getDMByName(user.name).id
-  recastClient.textConverse(message.text, { language: config.recast.language, converseToken: message.user })
-  .then((res) => {
-    const action = res.action
-    const replies = res.replies
 
-    if (!action) {
-      console.log(`No action`)
+  // CALL TO RECAST.AI: Message.user contain a unique Id of your conversation in Slack
+  // The converseToken is what let Recast identify your conversation.
+  // As message.user is what identify your slack conversation, you can use it as converseToken.
+
+  recastClient.textConverse(message.text, { converseToken: message.user })
+  .then((res) => {
+    const replies = res.replies
+    const action = res.action
+
+    if (!replies.length) {
       rtm.sendMessage('I didn\'t understand... Sorry :(', dm)
       return
     }
 
-		console.log(`The action of this message is: ${action.slug}`)
-
-		if (replies[0]) {
-			console.log('current action has a reply')
-			rtm.sendMessage(replies[0], dm)
-		}
-
-    if (action.done && replies[1]) {
-      console.log('Action is done && next action has a reply')
-			rtm.sendMessage(replies[1], dm)
+    if (action.done) {
+      // Do something if you need: use res.memory('knowledge') if you got a knowledge from this action
     }
+
+    replies.forEach(reply => rtm.sendMessage(reply, dm))
   })
   .catch((err) => {
     console.log(err)

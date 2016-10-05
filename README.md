@@ -1,19 +1,18 @@
-# Start coding your bot with Slack
+# Start coding your bot: Recast.AI + Slack
 
-This Starter Kit will help you start coding a bot connected to Slack with Recast.AI.
+This Starter-Kit will help you start coding a bot connected to Slack with Recast.AI.
 
 ## Requirements
 
-* Create an account on Recast.AI
-* Create an account on Slack
-* Set up your Recast.AI account
+* Create an account on [Recast.AI](https://recast.ai/)
+* Create an account on [Slack](https://slack.com/)
 
 ## Get your Recast Bot Token
 
-* Log in to your Recast.AI account
+* Log in to your [Recast.AI](https://recast.ai/) account
 * Create your Bot
 * Create intents and fill them with some expressions
-* Build your tree on BotBuilder in the 'Build' tab
+* Build your conversation flow on bot builder in the 'Build' tab
 * In the tab menu, click on the the little screw
 * Here is the `request access token` you will need to configure your bot!
 
@@ -68,42 +67,42 @@ npm run start
 Here is the heart of your bot, this function is called everytime your bot receive a message.
 'res' is full of precious informations:
 
-* use **res.memory('alias')** to read an entity you just got in the input like a mail, a datetime etc...
+* use **res.memory('knowledge')** to read a knowledge you just got in the input like a mail, a datetime etc...
 * use **res.action** to get the current action according to your botbuilder schema
 * in **action**, you can find a done boolean to know if this action can be done according to the requirements (ex: signin needs login)
 * use **res.reply()** to get the reply you've set for this action
 * use **res.replies** to get an array containing the reply set for the action && the following one if the next action can be done
 * use **res.nextActions** to get an array of all the following actions
 
+For more information, please read the [SDK NodeJS documentation](https://github.com/RecastAI/SDK-NodeJS)
+
 ```javascript
 rtm.on(slackEvent.MESSAGE, (message) => {
   const user = rtm.dataStore.getUserById(message.user)
   const dm = rtm.dataStore.getDMByName(user.name).id
 
-  recastClient.converse(message.text, { language: config.recast.language, converseToken: message.user })
-  .then((res) => {
-    const action = res.action
-    const replies = res.replies
+  // CALL TO RECAST.AI: Message.user contain a unique Id of your conversation in Slack
+  // The converseToken is what let Recast identify your conversation.
+  // As message.user is what identify your slack conversation, you can use it as converseToken.
 
-    if (!action) {
-      console.log(`No action`)
+  recastClient.textConverse(message.text, { converseToken: message.user })
+  .then((res) => {
+    const replies = res.replies
+    const action = res.action
+
+    if (!replies.length) {
       rtm.sendMessage('I didn\'t understand... Sorry :(', dm)
       return
     }
 
-    console.log(`The action of this message is: ${action.slug}`)
-
-    if (replies[0]) {
-      console.log('current action has a reply')
-      rtm.sendMessage(replies[0], dm)
+    if (action.done) {
+      // Do something if you need: use res.memory('knowledge') if you got a knowledge from this action
     }
 
-    if (action.done && replies[1]) {
-      console.log('Action is done && next action has a reply')
-      rtm.sendMessage(replies[1], dm)
-    }
+    replies.forEach(reply => rtm.sendMessage(reply, dm))
   })
-  .catch(() => {
+  .catch((err) => {
+    console.log(err)
     rtm.sendMessage("I'm getting tired, let's talk later", dm)
   })
 })
@@ -114,3 +113,13 @@ rtm.on(slackEvent.MESSAGE, (message) => {
 Hugo Cherchi - Recast.AI hugo.cherchi@recast.ai
 
 You can follow us on Twitter at @recastai for updates and releases.
+
+## License
+
+Copyright (c) [2016] [Recast.AI](https://recast.ai/)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
