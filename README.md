@@ -1,6 +1,6 @@
 # Start coding your bot: Recast.AI + Slack
 
-This Starter-Kit will help you start coding a bot connected to Slack with Recast.AI.
+This Starter-Kit will help you start coding a bot connected to Slack with [Recast.AI](https://recast.ai/).
 
 ## Requirements
 
@@ -67,9 +67,9 @@ npm run start
 Here is the heart of your bot, this function is called everytime your bot receive a message.
 'res' is full of precious informations:
 
-* use **res.memory('knowledge')** to read a knowledge you just got in the input like a mail, a datetime etc...
-* use **res.action** to get the current action according to your botbuilder schema
-* in **action**, you can find a done boolean to know if this action can be done according to the requirements (ex: signin needs login)
+* use **res.memory('knowledge')** to access a knowledge you just got in the input like a mail, a datetime etc...
+* use **res.action** to get the current action according to your bot builder flow
+* in **action**, you can find a done boolean to know if this action is complete according to the requirements (ex: booking need to signin, signin needs a login)
 * use **res.reply()** to get the reply you've set for this action
 * use **res.replies** to get an array containing the reply set for the action && the following one if the next action can be done
 * use **res.nextActions** to get an array of all the following actions
@@ -81,7 +81,7 @@ rtm.on(slackEvent.MESSAGE, (message) => {
   const user = rtm.dataStore.getUserById(message.user)
   const dm = rtm.dataStore.getDMByName(user.name).id
 
-  // CALL TO RECAST.AI: Message.user contain a unique Id of your conversation in Slack
+  // CALL TO RECAST.AI: message.user contain a unique Id of your conversation in Slack
   // The converseToken is what let Recast identify your conversation.
   // As message.user is what identify your slack conversation, you can use it as converseToken.
 
@@ -96,7 +96,7 @@ rtm.on(slackEvent.MESSAGE, (message) => {
     }
 
     if (action.done) {
-      // Do something if you need: use res.memory('knowledge') if you got a knowledge from this action
+      // Use external services: use res.memory('knowledge') if you got a knowledge from this action
     }
 
     replies.forEach(reply => rtm.sendMessage(reply, dm))
