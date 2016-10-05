@@ -7,7 +7,7 @@ This Starter-Kit will help you start coding a bot connected to Slack with [Recas
 * Create an account on [Recast.AI](https://recast.ai/)
 * Create an account on [Slack](https://slack.com/)
 
-## Get your Recast Bot Token
+## Get your Recast.AI bot token
 
 * Log in to your [Recast.AI](https://recast.ai/) account
 * Create your Bot
@@ -22,9 +22,9 @@ This Starter-Kit will help you start coding a bot connected to Slack with [Recas
 * Create a new bot and follow the procedure
 * That's it, you can now get the code located in the API Token field!
 
-## Launch the Bot
+## Launch the bot
 
-#### Complete the config.js
+#### Complete the config.js file
 
 * Clone this Repository
 
@@ -32,7 +32,7 @@ This Starter-Kit will help you start coding a bot connected to Slack with [Recas
 git clone https://github.com/RecastAI/bot-slack.git
 ```
 
-* Fill the config.js with your Tokens
+* Fill the config.js with your tokens
 
 ```javascript
 const config =
@@ -64,14 +64,14 @@ npm run start
 
 ## Go further
 
-Here is the heart of your bot, this function is called everytime your bot receive a message.
-'res' is full of precious informations:
+Here is the heart of your bot. The following function is called every time your bot receives a message.
+'res' is full of precious information:
 
-* use **res.memory('knowledge')** to access a knowledge you just got in the input like a mail, a datetime etc...
+* use **res.memory('knowledge')** to access a knowledge you just got in the input like a email address, a datetime etc...
 * use **res.action** to get the current action according to your bot builder flow
 * in **action**, you can find a done boolean to know if this action is complete according to the requirements (ex: booking need to signin, signin needs a login)
 * use **res.reply()** to get the reply you've set for this action
-* use **res.replies** to get an array containing the reply set for the action && the following one if the next action can be done
+* use **res.replies** to get an array containing the reply set for the action && the following one if the next action is complete
 * use **res.nextActions** to get an array of all the following actions
 
 For more information, please read the [SDK NodeJS documentation](https://github.com/RecastAI/SDK-NodeJS)
@@ -81,9 +81,9 @@ rtm.on(slackEvent.MESSAGE, (message) => {
   const user = rtm.dataStore.getUserById(message.user)
   const dm = rtm.dataStore.getDMByName(user.name).id
 
-  // CALL TO RECAST.AI: message.user contain a unique Id of your conversation in Slack
-  // The converseToken is what let Recast identify your conversation.
-  // As message.user is what identify your slack conversation, you can use it as converseToken.
+	// CALL TO RECAST.AI: message.user contains a unique ID of your conversation in Slack
+  // The converseToken is what lets Recast.AI identify your conversation.
+  // As message.user is what identifies your Slack conversation, you can use it as converseToken.
 
   recastClient.textConverse(message.text, { converseToken: message.user })
   .then((res) => {
@@ -101,8 +101,7 @@ rtm.on(slackEvent.MESSAGE, (message) => {
 
     replies.forEach(reply => rtm.sendMessage(reply, dm))
   })
-  .catch((err) => {
-    console.log(err)
+  .catch(() => {
     rtm.sendMessage("I'm getting tired, let's talk later", dm)
   })
 })
