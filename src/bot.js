@@ -32,7 +32,7 @@ rtm.on(slackEvent.MESSAGE, (message) => {
       return
     }
 
-    if (action.done) {
+    if (action && action.done) {
       // Do something if you need: use res.memory('knowledge') if you got a knowledge from this action
     }
 
