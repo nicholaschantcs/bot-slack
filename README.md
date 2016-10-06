@@ -82,10 +82,10 @@ rtm.on(slackEvent.MESSAGE, (message) => {
   const dm = rtm.dataStore.getDMByName(user.name).id
 
 	// CALL TO RECAST.AI: message.user contains a unique ID of your conversation in Slack
-  // The converseToken is what lets Recast.AI identify your conversation.
-  // As message.user is what identifies your Slack conversation, you can use it as converseToken.
+  // The conversationToken is what lets Recast.AI identify your conversation.
+  // As message.user is what identifies your Slack conversation, you can use it as conversationToken.
 
-  recastClient.textConverse(message.text, { converseToken: message.user })
+  recastClient.textConverse(message.text, { conversationToken: message.user })
   .then((res) => {
     const replies = res.replies
     const action = res.action

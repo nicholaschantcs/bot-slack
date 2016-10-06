@@ -1,7 +1,6 @@
 // MODULES IMPORT
 const recast = require('recastai')
 const config = require('../config.js')
-const http = require('http')
 const slack = require('@slack/client')
 
 // RECAST.AI INIT: Language is optionnal
@@ -19,10 +18,10 @@ rtm.on(slackEvent.MESSAGE, (message) => {
   const dm = rtm.dataStore.getDMByName(user.name).id
 
   // CALL TO RECAST.AI: message.user contains a unique ID of your conversation in Slack
-  // The converseToken is what lets Recast.AI identify your conversation.
-  // As message.user is what identifies your Slack conversation, you can use it as converseToken.
+  // The conversationToken is what lets Recast.AI identify your conversation.
+  // As message.user is what identifies your Slack conversation, you can use it as conversationToken.
 
-  recastClient.textConverse(message.text, { converseToken: message.user })
+  recastClient.textConverse(message.text, { conversationToken: message.user })
   .then((res) => {
     const replies = res.replies
     const action = res.action
@@ -42,6 +41,3 @@ rtm.on(slackEvent.MESSAGE, (message) => {
     rtm.sendMessage("I'm getting tired, let's talk later", dm)
   })
 })
-
-// SERVER INIT
-http.createServer().listen(8080)
