@@ -1,6 +1,6 @@
 const config = {
   recast: {
-    token: 'RECAST TOKEN',
+    token: 'RECAST BOT TOKEM',
     language: 'en',
   },
   slack: {
