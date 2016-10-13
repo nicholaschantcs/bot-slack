@@ -31,7 +31,7 @@ rtm.on(slackEvent.MESSAGE, (message) => {
     }
 
     if (action && action.done) {
-      // Do something if you need: use res.memory('knowledge') if you got a knowledge from this action
+      // Do something if you need: use res.memory('notion') if you got a notion from this action
     }
 
     replies.forEach(reply => rtm.sendMessage(reply, dm))
