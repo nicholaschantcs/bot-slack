@@ -67,7 +67,7 @@ npm run start
 Here is the heart of your bot. The following function is called every time your bot receives a message.
 'res' is full of precious information:
 
-* use **res.memory('notion')** to access a notion you just got in the input like a email address, a datetime etc...
+* use **res.memory['notion']** to access a notion you just got in the input like a email address, a datetime etc...
 * use **res.action** to get the current action according to your bot builder flow
 * in **action**, you can find a done boolean to know if this action is complete according to the requirements (ex: booking need to signin, signin needs a login)
 * use **res.reply()** to get the reply you've set for this action
